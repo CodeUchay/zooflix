@@ -1,8 +1,13 @@
 import React from 'react'
+import DashNav from './DashNav';
+import MovieList from './MovieList';
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <>
+    <DashNav/>
+    <MovieList/>
+    </>
   )
 }
 
