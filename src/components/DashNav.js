@@ -100,7 +100,14 @@ function DashNav() {
                 </div>
               </li>
               </Link>
-              
+              <li
+                className="text-xl  py-4 px-5 flex mt-5 hover:rounded-sm"
+              >
+                
+              <Link to="/" className="flex justify-between items-center p-2 cursor-pointer  hover:bg-red-500 border border-gray-800 rounded">
+                  Logout
+                </Link>
+              </li>
             </ul>
           </nav>
         </div>
