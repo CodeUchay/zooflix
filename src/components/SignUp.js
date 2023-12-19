@@ -12,22 +12,29 @@ function SignUp() {
     const [passwordError, setPasswordError] = useState(false);
     const navigate = useNavigate();
 
-    async function handleRegisteration(e) {
-        e.preventDefault();
+    async function handleRegistration(e) {
+      e.preventDefault();
     
-          const res = await fetch("/register", {
-            method: "POST",
-            body: JSON.stringify({ firstname, lastname, email, password }),
-            headers: { "Content-Type": "application/json" },
-          }); 
-          if (res.status === 200) {
-            alert("registration successful, please login");
-            navigate('/login'); // Trigger the redirect after registeration
-          } else {
-            alert("registration failed, you already have an account, please login");
-          }
-        
+      try {
+        const res = await fetch("http://localhost:3001/api/Users", {
+          method: "POST",
+          body: JSON.stringify({ firstname, lastname, email, password }),
+          headers: { "Content-Type": "application/json" },
+        });
+    
+        if (res.ok) {
+          alert("Registration successful! Please login.");
+          navigate('/login'); // Trigger the redirect after registration
+        } else {
+          const errorData = await res.json(); // Try to parse the response body as JSON
+          alert(`Registration failed: ${errorData.message || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error("Error during registration:", error);
+        alert("An error occurred during registration. Please try again later.");
       }
+    }
+    
 
   return (
     <>
@@ -40,7 +47,7 @@ function SignUp() {
         <h1>Sign Up for <span className='text-red-400'>Zooflix</span> </h1> 
       </div>
       <hr className="mb-3" />
-      <form onSubmit={handleRegisteration}>
+      <form onSubmit={handleRegistration}>
       <div className="mb-6">
           <label htmlFor="firstname" className="block text-sm leading-6 ">
             First Name
