@@ -8,28 +8,54 @@ function Login() {
     const [password, setPassword] = useState("");
 
     const [redirect, setRedirect] = useState(false);
+    const [emails, setEmails] = useState();
+    const [apiPassword, setApiPassword] = useState("");
+
 
     async function login(e) {
         e.preventDefault();
-        const res = await fetch("/login", {
-          method: "POST",
-          body: JSON.stringify({ email, password }),
+        const res = await fetch("http://localhost:3001/api/Users/email/"+email, {
+          method: "GET",
           headers: {
             'Content-Type': 'application/json', // Set the content type header
           },
-          credentials: 'include',
         });
     
         if (res.ok) {
           res.json().then(data => {
+            setEmail(data);
+            setApiPassword(data.password);
+            if (password === data.password){
+              saveUserData(data.firstname, data.lastname, data.email, data.id)
+              alert("Login successful! Redirecting to dashboard.");
+              setRedirect(true);
+            }
+            else {
+            alert("Login Failed: Wrong Password");
+            }
+            
           })
-          setRedirect(true);
+          
         } else {
+          const errorData = await res.json();
+          alert(`Login failed: ${errorData.message || 'Unknown error'}`);
         }
       }
+      // Save data to local storage
+          function saveUserData(firstName, lastName, email, id) {
+            const userData = {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              id: id
+            };
+
+            localStorage.setItem('userData', JSON.stringify(userData));
+            console.log("here>>>>>>>>.",localStorage.getItem('userData'));
+          }
     
       if (redirect) {
-        return <Navigate to={"/"} />;
+        return <Navigate to={"/dashboard"} />;
       }
 
   return (

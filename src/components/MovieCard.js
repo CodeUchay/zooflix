@@ -4,27 +4,37 @@ import { useNavigate } from "react-router-dom";
 import {AiOutlineCheck} from 'react-icons/ai';
 import movie_image from '../images/movie_image.jpg'
 
-const MovieCard = ({ movie }) => {
-    console.log(movie)
+const MovieCard = ({ movie, userId }) => {
 //  const { addToCart } = useContext(CartContext);
   const [addedItem, setAddedItem] = useState(false);
-
+console.log("verifying id...", userId)
   const navigate = useNavigate();
 
-  const handleAddToCart = (e) => {
-    // To prevent the navigation to menu/id when the "Add to Cart" button is clicked
-    e.stopPropagation(); 
-  //  addToCart(movie.id);
-    setAddedItem(true);
-
-    setTimeout(() => {
-      setAddedItem(false);
-    }, 2500);
+ async function placeOrder() {
+    const movieId = movie.id;
+    const date = new Date();
+    const formattedDate = date.toISOString().split('T')[0];
+    try {
+      const res = await fetch("http://localhost:3001/api/Orders", {
+        method: "POST",
+        body: JSON.stringify({ UserId: userId, MovieId: movieId, ord_date: formattedDate }),
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (res.ok) {
+        alert("Order Successful");
+       
+      } else {
+        const errorData = await res.json(); // Try to parse the response body as JSON
+        alert(`Order failed: ${errorData.message || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+      alert("An error occurred during registration. Please try again later.");
+    }
   };
 
-//   const handleFoodClick = () => {
-//     navigate(`/menu/${movie.id}`);
-//   };
+
   return (
     <div  className="cursor-pointer border border-gray-900 rounded-2xl shadow-red-600 hover:shadow-lg hover:scale-105 duration-500 shadow-xs">
       {/* food container */}
@@ -41,11 +51,18 @@ const MovieCard = ({ movie }) => {
           {movie.name}
         </h2>
         <p className="text-xs"> <b>Description:</b> {movie.description}</p>
-        <p>Rating: {movie.rating + '/5'}</p>
+        <p>Category: {movie.category }</p>
+        <p>Stars: {movie.stars.map((star, index) => (
+                  <div className="font-thin text-xs " key={star.id}>
+                    <p>{star.firstname} {star.lastname}, </p>
+                  </div>
+                ))}</p>
+        <p>Rating: {movie.rate + '/5'}</p>
+        <p>Date: {movie.createdDate}</p>
         <p className="text-sm">Price: <b>${movie.price}</b></p>
         <div className="flex gap-4 items-center">
           <button
-            onClick={handleAddToCart}
+            onClick={placeOrder}
             className="border-none bg-orange-400 rounded p-2 hover:bg-red-500 relative"
           >
             Order

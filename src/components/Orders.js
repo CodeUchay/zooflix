@@ -1,8 +1,66 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DashNav from "./DashNav";
 import { orders } from "../Data/orders";
 
 function Orders() {
+  const [orders, setOrders] = useState([]);
+  const [userId, setUserId] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("http://localhost:3001/api/Orders", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setOrders(data);
+          const userData = getUserData();
+
+          if (userData) {
+            setUserId(userData.id);
+            filterOrder(userData.id, data);
+          }
+        } else {
+          const errorData = await res.json();
+          console.error(
+            `Error fetching orders: ${errorData.message || "Unknown error"}`
+          );
+        }
+      } catch (error) {
+        console.error(
+          `An error occurred while fetching movies: ${error.message}`
+        );
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  function filterOrder(userId, orders) {
+    console.log("order obj", orders);
+    const filteredOrders = [];
+
+    for (const order of orders) {
+      if (order.userId === userId) {
+        filteredOrders.push(order);
+      }
+    }
+    setOrders(filteredOrders);
+  }
+
+  function getUserData() {
+    const storedData = localStorage.getItem("userData");
+    if (storedData) {
+      return JSON.parse(storedData);
+    } else {
+      return null;
+    }
+  }
   return (
     <>
       <DashNav />
@@ -15,7 +73,7 @@ function Orders() {
             </h1>
           </div>
           {/* Menu container*/}
-          <div className=" rounded p-6 lg:p-0  mt-5 flex justify-center items-center" >
+          <div className=" rounded p-6 lg:p-0  mt-5 flex justify-center items-center">
             {/* Display foods */}
             <table className=" mt-2">
               <thead>
@@ -27,13 +85,13 @@ function Orders() {
                 </tr>
               </thead>
               <tbody>
-                {orders.map((order, index) => (
-                  <tr className="border-b-2" key={order.id}>
+                {orders.map((orders, index) => (
+                  <tr className="border-b-2" key={orders.id}>
                     <td className="text-center font-semibold">{index + 1}</td>
-                    <td className="px-3">{order.name}</td>
-                    <td className="p-3">{order.price}</td>
+                    <td className="px-3">{orders.movie.name}</td>
+                    <td className="p-3">{orders.movie.price}</td>
                     {/* <td className="max-w-[20px] truncate">{product.description}</td> */}
-                    <td className="px-4">{order.date}</td>
+                    <td className="px-4">{orders.ord_date}</td>
                   </tr>
                 ))}
               </tbody>
