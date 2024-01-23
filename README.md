@@ -1,3 +1,21 @@
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/60301772-98e5-4d50-a6c1-39fba9d38e45)
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/6d29e09e-9d9e-463e-a759-aad41d729e9c)
+
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/bae34a72-5670-4402-b791-8207674c0f1f)
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/8460aaa3-9e34-42e6-9040-569f9c406b57)
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/abf43847-41b3-4520-ad04-0accfd069f40)
+
+![image](https://github.com/CodeUchay/zooflix/assets/121253428/8b6d23c5-1675-4c68-9f43-eecc07ae9c15)
+
+
+API CODE: https://github.com/CodeUchay/Zooflix-api (its in C# .NET)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
