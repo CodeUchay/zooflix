@@ -1,7 +1,7 @@
 export const user = 
     {
-      firstname: 'Pradeep',
-      lastname: 'Deivamani',
-      email: 'pradeep.deiva@gmail.com',
+      firstname: 'Wasim',
+      lastname: 'Alhabbal',
+      email: 'was.hab@gmail.com',
       orders: [2,5,6]
     }
