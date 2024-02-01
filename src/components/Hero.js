@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 
 function Hero() {
   return (
-    //i added mt 20 to the first container so that it doesnt blend with the sticky navbar
       <div className="relative">
         <div className="px-4 lg:px-20 py-2 lg:py-10 absolute flex flex-col justify-center ">
           <div className="flex flex-col lg:gap-6">
